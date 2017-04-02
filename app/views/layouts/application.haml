@@ -11,9 +11,8 @@
     = javascript_include_tag '//maps.googleapis.com/maps/api/js?key=AIzaSyBs6g_faW-lUQL44tOnBqSizS3o3aIck-o'
     = javascript_include_tag 'application'
   %body
-    -#.container-fluid
 
-    -#- flash.each do |name, msg|
+    - flash.each do |name, msg|
       .alert.alert-dismissible{role: 'alert', class: "alert-#{name}"}
         %button.close{type: 'button', data: {dismiss: "alert"}, aria: {label: 'Close'}}
           %span{aria: {hidden: true}} &times;
