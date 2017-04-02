@@ -1,0 +1,121 @@
+.control-panel
+  %h3.text-center My Weather Map
+
+  .container-fluid
+    = form_tag search_path, method: :get, class: 'search', enforce_utf8: false do
+      .search-input
+        = text_field_tag :zip, nil, required: true, class: 'form-control', placeholder: 'ZIP code e.g. nw10 1re'
+      .search-button
+        = button_tag 'Search', name: nil, class: 'btn btn-success btn-block'
+
+  %hr
+
+  .container-fluid
+    .panel.panel-primary
+      .panel-heading
+        .panel-title
+          Today's Current Weather
+      .panel-body
+        = image_tag(@entity.icon)
+        = "#{@entity.weather[:main]}: #{@entity.weather[:description]}"
+
+        %div{data: {bee: 'converter', 'bee-opts-converter': {default_unit: 'C', button_label: {C: 'Convert to F', F: 'Convert to C'}}.to_json}}
+          %h3 Temperature
+          %table.table.table-bordered
+            %tr
+              %th Current
+              %td.current= @entity.temp[:current]
+            %tr
+              %th Minimum
+              %td.min= @entity.temp[:min]
+            %tr
+              %th Maximum
+              %td.max= @entity.temp[:max]
+            %tr
+              %th Pressure
+              %td= @entity.temp[:pressure]
+            %tr
+              %th Humidity
+              %td= @entity.temp[:humidity]
+
+          .btn.btn-primary.pull-right
+
+
+    .panel.panel-default
+      .panel-heading
+        .panel-title
+          Previous Searches
+      .panel-body
+        - previous_searches = WeatherStorage.instance.all
+        - if previous_searches.empty?
+          .text-muted.text-center No searches made yet.
+        - else
+          %ul
+            - previous_searches.to_a.reverse.to_h.each do |previous|
+              %li= link_to previous[1].location, load_path(q: previous[0])
+
+.map-panel
+  #map{data: { bee: 'googlemap', 'bee-opts-googlemap': { lat: "#{@entity.coords[:lat]}", long: "#{@entity.coords[:long]}", description: @entity.weather[:description], icon: @entity.icon}.to_json}}
+
+
+
+
+-#%h3.text-center My Weather Map
+
+-#.row
+  .col-md-3
+    = form_for :search, url: search_path, method: :get do |f|
+      .row
+        .col-md-8
+          = f.text_field :zip, label: 'Zip Code', required: true, class: 'form-control'
+        .col-md-4
+          = f.button 'Search', type: :submit, class: 'btn btn-success btn-block'
+
+    %hr
+
+    .panel.panel-primary
+      .panel-heading
+        .panel-title
+          Today's Weather
+      .panel-body
+        = image_tag("http://openweathermap.org/img/w/#{@entity.weather[:icon]}.png")
+        = "#{@entity.weather[:main]}: #{@entity.weather[:description]}"
+
+        %div{data: {bee: 'converter', 'bee-opts-converter': {default_unit: 'C', button_label: {C: 'Convert to F', F: 'Convert to C'}}.to_json}}
+          %h3 Temperature
+          %table.table.table-bordered
+            %tr
+              %th Current
+              %td.current= @entity.temp[:current]
+            %tr
+              %th Minimum
+              %td.min= @entity.temp[:min]
+            %tr
+              %th Maximum
+              %td.max= @entity.temp[:max]
+            %tr
+              %th Pressure
+              %td= @entity.temp[:pressure]
+            %tr
+              %th Humidity
+              %td= @entity.temp[:humidity]
+
+          .btn.btn-primary.pull-right
+
+
+    .panel.panel-default
+      .panel-heading
+        .panel-title
+          Previous Searches
+      .panel-body
+        - previous_searches = WeatherStorage.instance.all
+        - if previous_searches.empty?
+          .text-muted.text-center No searches made yet.
+        - else
+          %ul
+            - previous_searches.to_a.reverse.to_h.each do |previous|
+              %li= link_to previous[1].location, load_path(q: previous[0])
+
+
+  .col-md-9
+    #map{data: { bee: 'googlemap', 'bee-opts-googlemap': { lat: "#{@entity.coords[:lat]}", long: "#{@entity.coords[:long]}", description: @entity.weather[:description]}.to_json}}
