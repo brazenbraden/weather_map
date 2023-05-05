@@ -1,0 +1,34 @@
+/*
+ *= require_self
+ */
+
+
+.control-panel {
+  width: 30%;
+
+  .search {
+    .search-input, .search-button {
+      float: left;
+    }
+    .search-input {
+      width: 70%;
+    }
+    .search-button {
+      width: 30%;
+      padding-left: 10px;
+    }
+  }
+}
+
+.map-panel {
+  position: fixed;
+  top: 0;
+  left: 30%;
+  right: 0;
+  bottom: 0;
+
+  #map{
+    height: 100%;
+    width: 100%;
+  }
+}

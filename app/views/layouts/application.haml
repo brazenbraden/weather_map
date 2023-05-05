@@ -1,0 +1,21 @@
+!!!
+%html
+  %head
+    %title WeatherMap
+    = csrf_meta_tags
+    = stylesheet_link_tag '//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'
+    = stylesheet_link_tag    'application', media: 'all'
+
+    = javascript_include_tag '//code.jquery.com/jquery-3.2.1.min.js'
+    = javascript_include_tag '//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'
+    = javascript_include_tag '//maps.googleapis.com/maps/api/js?key=your_key_here'
+    = javascript_include_tag 'application'
+  %body
+
+    - flash.each do |name, msg|
+      .alert.alert-dismissible{role: 'alert', class: "alert-#{name}"}
+        %button.close{type: 'button', data: {dismiss: "alert"}, aria: {label: 'Close'}}
+          %span{aria: {hidden: true}} &times;
+        = msg
+
+    = yield
